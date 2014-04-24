@@ -33,7 +33,7 @@
 	<properties>
 		<componentName>resource-adminuser</componentName>
 		<jiraProjectName>RESADMIN</jiraProjectName>
-		<jiraComponentId></jiraComponentId>
+		<jiraComponentId>12353</jiraComponentId>
 	</properties>
 
     <scm>
