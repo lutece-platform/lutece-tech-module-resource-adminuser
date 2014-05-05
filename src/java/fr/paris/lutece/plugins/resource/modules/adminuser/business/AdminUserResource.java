@@ -42,14 +42,13 @@ import fr.paris.lutece.portal.business.user.AdminUser;
  */
 public class AdminUserResource extends AdminUser implements IResource
 {
-
     private static final long serialVersionUID = -4011512795595150982L;
     private static final String CONSTANT_SPACE = " ";
 
     /**
      * Default constructor
      */
-    public AdminUserResource( )
+    public AdminUserResource(  )
     {
         // Default constructor
     }
@@ -60,39 +59,39 @@ public class AdminUserResource extends AdminUser implements IResource
      */
     public AdminUserResource( AdminUser user )
     {
-        setUserId( user.getUserId( ) );
-        setAccessCode( user.getAccessCode( ) );
-        setLastName( user.getLastName( ) );
-        setFirstName( user.getFirstName( ) );
-        setEmail( user.getEmail( ) );
-        setStatus( user.getStatus( ) );
-        setUserLevel( user.getUserLevel( ) );
-        setPasswordReset( user.isPasswordReset( ) );
-        setAccessibilityMode( user.getAccessibilityMode( ) );
-        setPasswordMaxValidDate( user.getPasswordMaxValidDate( ) );
-        setAccountMaxValidDate( user.getAccountMaxValidDate( ) );
-        setDateLastLogin( user.getDateLastLogin( ) );
-        setRights( user.getRights( ) );
-        setRoles( user.getRoles( ) );
-        setAuthenticationService( user.getAuthenticationService( ) );
-        setAuthenticationType( user.getAuthenticationType( ) );
-        setLocale( user.getLocale( ) );
+        setUserId( user.getUserId(  ) );
+        setAccessCode( user.getAccessCode(  ) );
+        setLastName( user.getLastName(  ) );
+        setFirstName( user.getFirstName(  ) );
+        setEmail( user.getEmail(  ) );
+        setStatus( user.getStatus(  ) );
+        setUserLevel( user.getUserLevel(  ) );
+        setPasswordReset( user.isPasswordReset(  ) );
+        setAccessibilityMode( user.getAccessibilityMode(  ) );
+        setPasswordMaxValidDate( user.getPasswordMaxValidDate(  ) );
+        setAccountMaxValidDate( user.getAccountMaxValidDate(  ) );
+        setDateLastLogin( user.getDateLastLogin(  ) );
+        setRights( user.getRights(  ) );
+        setRoles( user.getRoles(  ) );
+        setAuthenticationService( user.getAuthenticationService(  ) );
+        setAuthenticationType( user.getAuthenticationType(  ) );
+        setLocale( user.getLocale(  ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getIdResource( )
+    public String getIdResource(  )
     {
-        return Integer.toString( getUserId( ) );
+        return Integer.toString( getUserId(  ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getResourceType( )
+    public String getResourceType(  )
     {
         return AdminUser.RESOURCE_TYPE;
     }
@@ -101,9 +100,8 @@ public class AdminUserResource extends AdminUser implements IResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceName( )
+    public String getResourceName(  )
     {
-        return getFirstName( ) + CONSTANT_SPACE + getLastName( );
+        return getFirstName(  ) + CONSTANT_SPACE + getLastName(  );
     }
-
 }

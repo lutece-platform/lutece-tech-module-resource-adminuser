@@ -56,26 +56,24 @@ import java.util.Locale;
  */
 public class AdminUserResourceProvider implements IResourceProvider
 {
-
     private static final String MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION = "module.resource.adminuser.labelAdminUserResourceType";
-
     private List<IResourceType> _listResourceTypes;
 
     /**
      * Default constructor
      */
-    public AdminUserResourceProvider( )
+    public AdminUserResourceProvider(  )
     {
         _listResourceTypes = new ArrayList<IResourceType>( 1 );
-        _listResourceTypes.add( new ResourceTypeDefaultImplementation( AdminUser.RESOURCE_TYPE, I18nService
-                .getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, Locale.getDefault( ) ) ) );
+        _listResourceTypes.add( new ResourceTypeDefaultImplementation( AdminUser.RESOURCE_TYPE,
+                I18nService.getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, Locale.getDefault(  ) ) ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<IResourceType> getResourceTypeList( )
+    public List<IResourceType> getResourceTypeList(  )
     {
         return _listResourceTypes;
     }
@@ -96,33 +94,19 @@ public class AdminUserResourceProvider implements IResourceProvider
     public IResource getResource( String strIdResource, String strResourceTypeName )
     {
         String strCacheKey = ResourceCacheService.getResourceCacheKey( strIdResource, strResourceTypeName );
-        AdminUserResource user = (AdminUserResource) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
+        AdminUserResource user = (AdminUserResource) ResourceCacheService.getInstance(  ).getFromCache( strCacheKey );
+
         if ( user == null )
         {
             if ( StringUtils.isNotEmpty( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
             {
                 int nIdAdminUser = Integer.parseInt( strIdResource );
                 user = new AdminUserResource( AdminUserHome.findByPrimaryKey( nIdAdminUser ) );
-                ResourceCacheService.getInstance( ).putInCache( strCacheKey, user );
+                ResourceCacheService.getInstance(  ).putInCache( strCacheKey, user );
             }
         }
+
         return user;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<IResource> getListResources( )
-    {
-        Collection<AdminUser> listAdminUser = AdminUserHome.findUserList( );
-        List<IResource> listResource = new ArrayList<IResource>( listAdminUser.size( ) );
-        for ( AdminUser adminUser : listAdminUser )
-        {
-            listResource.add( new AdminUserResource( adminUser ) );
-        }
-
-        return listResource;
     }
 
     /**
@@ -133,8 +117,17 @@ public class AdminUserResourceProvider implements IResourceProvider
     {
         if ( AdminUser.RESOURCE_TYPE.equals( strResourceTypeName ) )
         {
-            return getListResources( );
+            Collection<AdminUser> listAdminUser = AdminUserHome.findUserList(  );
+            List<IResource> listResource = new ArrayList<IResource>( listAdminUser.size(  ) );
+
+            for ( AdminUser adminUser : listAdminUser )
+            {
+                listResource.add( new AdminUserResource( adminUser ) );
+            }
+
+            return listResource;
         }
-        return new ArrayList<IResource>( );
+
+        return new ArrayList<IResource>(  );
     }
 }
