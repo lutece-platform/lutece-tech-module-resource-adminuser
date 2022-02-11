@@ -43,7 +43,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,7 +64,7 @@ public class AdminUserResourceProvider implements IResourceProvider
      */
     public AdminUserResourceProvider(  )
     {
-        _listResourceTypes = new ArrayList<IResourceType>( 1 );
+        _listResourceTypes = new ArrayList<>( 1 );
         _listResourceTypes.add( new ResourceTypeDefaultImplementation( AdminUser.RESOURCE_TYPE,
                 I18nService.getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, Locale.getDefault(  ) ) ) );
     }
@@ -118,7 +118,7 @@ public class AdminUserResourceProvider implements IResourceProvider
         if ( AdminUser.RESOURCE_TYPE.equals( strResourceTypeName ) )
         {
             Collection<AdminUser> listAdminUser = AdminUserHome.findUserList(  );
-            List<IResource> listResource = new ArrayList<IResource>( listAdminUser.size(  ) );
+            List<IResource> listResource = new ArrayList<>( listAdminUser.size(  ) );
 
             for ( AdminUser adminUser : listAdminUser )
             {
@@ -128,6 +128,6 @@ public class AdminUserResourceProvider implements IResourceProvider
             return listResource;
         }
 
-        return new ArrayList<IResource>(  );
+        return new ArrayList<>(  );
     }
 }
