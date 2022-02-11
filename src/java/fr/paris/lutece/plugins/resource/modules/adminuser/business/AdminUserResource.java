@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.resource.modules.adminuser.business;
 
 import fr.paris.lutece.plugins.resource.business.IResource;
 import fr.paris.lutece.portal.business.user.AdminUser;
-
+import fr.paris.lutece.portal.business.user.AdminUserHome;
 
 /**
  * Admin user resource
@@ -72,7 +72,7 @@ public class AdminUserResource extends AdminUser implements IResource
         setAccountMaxValidDate( user.getAccountMaxValidDate(  ) );
         setDateLastLogin( user.getDateLastLogin(  ) );
         setRights( user.getRights(  ) );
-        setRoles( user.getRoles(  ) );
+        setRoles( AdminUserHome.getRolesListForUser( user.getUserId( ) ) );
         setAuthenticationService( user.getAuthenticationService(  ) );
         setAuthenticationType( user.getAuthenticationType(  ) );
         setLocale( user.getLocale(  ) );
