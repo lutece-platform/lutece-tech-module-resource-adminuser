@@ -50,7 +50,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * Resource provider for admin users
  */
@@ -62,18 +61,18 @@ public class AdminUserResourceProvider implements IResourceProvider
     /**
      * Default constructor
      */
-    public AdminUserResourceProvider(  )
+    public AdminUserResourceProvider( )
     {
         _listResourceTypes = new ArrayList<>( 1 );
         _listResourceTypes.add( new ResourceTypeDefaultImplementation( AdminUser.RESOURCE_TYPE,
-                I18nService.getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, Locale.getDefault(  ) ) ) );
+                I18nService.getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, Locale.getDefault( ) ) ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<IResourceType> getResourceTypeList(  )
+    public List<IResourceType> getResourceTypeList( )
     {
         return _listResourceTypes;
     }
@@ -94,7 +93,7 @@ public class AdminUserResourceProvider implements IResourceProvider
     public IResource getResource( String strIdResource, String strResourceTypeName )
     {
         String strCacheKey = ResourceCacheService.getResourceCacheKey( strIdResource, strResourceTypeName );
-        AdminUserResource user = (AdminUserResource) ResourceCacheService.getInstance(  ).getFromCache( strCacheKey );
+        AdminUserResource user = (AdminUserResource) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
 
         if ( user == null )
         {
@@ -102,7 +101,7 @@ public class AdminUserResourceProvider implements IResourceProvider
             {
                 int nIdAdminUser = Integer.parseInt( strIdResource );
                 user = new AdminUserResource( AdminUserHome.findByPrimaryKey( nIdAdminUser ) );
-                ResourceCacheService.getInstance(  ).putInCache( strCacheKey, user );
+                ResourceCacheService.getInstance( ).putInCache( strCacheKey, user );
             }
         }
 
@@ -117,8 +116,8 @@ public class AdminUserResourceProvider implements IResourceProvider
     {
         if ( AdminUser.RESOURCE_TYPE.equals( strResourceTypeName ) )
         {
-            Collection<AdminUser> listAdminUser = AdminUserHome.findUserList(  );
-            List<IResource> listResource = new ArrayList<>( listAdminUser.size(  ) );
+            Collection<AdminUser> listAdminUser = AdminUserHome.findUserList( );
+            List<IResource> listResource = new ArrayList<>( listAdminUser.size( ) );
 
             for ( AdminUser adminUser : listAdminUser )
             {
@@ -128,6 +127,6 @@ public class AdminUserResourceProvider implements IResourceProvider
             return listResource;
         }
 
-        return new ArrayList<>(  );
+        return new ArrayList<>( );
     }
 }
