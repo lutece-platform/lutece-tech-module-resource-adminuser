@@ -8,7 +8,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>module-resource-adminuser</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>Lutece resource admin user module</name>
     <repositories>
         <repository>
@@ -35,5 +35,6 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-tech-module-resource-adminuser.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-tech-module-resource-adminuser.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-tech-module-resource-adminuser.git</url>
-    </scm>
+      <tag>module-resource-adminuser-1.0.1</tag>
+  </scm>
 </project>
