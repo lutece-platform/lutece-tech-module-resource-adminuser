@@ -43,6 +43,10 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -53,10 +57,15 @@ import java.util.Locale;
 /**
  * Resource provider for admin users
  */
+@ApplicationScoped
+@Named( "resource-adminuser.adminUserResourceProvider" )
 public class AdminUserResourceProvider implements IResourceProvider
 {
     private static final String MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION = "module.resource.adminuser.labelAdminUserResourceType";
     private List<IResourceType> _listResourceTypes;
+
+    @Inject
+    private ResourceCacheService _resourceCacheService;
 
     /**
      * Default constructor
@@ -93,7 +102,7 @@ public class AdminUserResourceProvider implements IResourceProvider
     public IResource getResource( String strIdResource, String strResourceTypeName )
     {
         String strCacheKey = ResourceCacheService.getResourceCacheKey( strIdResource, strResourceTypeName );
-        AdminUserResource user = (AdminUserResource) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
+        AdminUserResource user = (AdminUserResource) _resourceCacheService.get( strCacheKey );
 
         if ( user == null )
         {
@@ -101,7 +110,7 @@ public class AdminUserResourceProvider implements IResourceProvider
             {
                 int nIdAdminUser = Integer.parseInt( strIdResource );
                 user = new AdminUserResource( AdminUserHome.findByPrimaryKey( nIdAdminUser ) );
-                ResourceCacheService.getInstance( ).putInCache( strCacheKey, user );
+                _resourceCacheService.put( strCacheKey, user );
             }
         }
 
