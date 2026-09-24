@@ -52,7 +52,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Resource provider for admin users
@@ -74,7 +73,7 @@ public class AdminUserResourceProvider implements IResourceProvider
     {
         _listResourceTypes = new ArrayList<>( 1 );
         _listResourceTypes.add( new ResourceTypeDefaultImplementation( AdminUser.RESOURCE_TYPE,
-                I18nService.getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, Locale.getDefault( ) ) ) );
+                I18nService.getLocalizedString( MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION, I18nService.getDefaultLocale( ) ) ) );
     }
 
     /**
@@ -108,9 +107,13 @@ public class AdminUserResourceProvider implements IResourceProvider
         {
             if ( StringUtils.isNotEmpty( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
             {
-                int nIdAdminUser = Integer.parseInt( strIdResource );
-                user = new AdminUserResource( AdminUserHome.findByPrimaryKey( nIdAdminUser ) );
-                _resourceCacheService.put( strCacheKey, user );
+                AdminUser adminUser = AdminUserHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
+
+                if ( adminUser != null )
+                {
+                    user = new AdminUserResource( adminUser );
+                    _resourceCacheService.put( strCacheKey, user );
+                }
             }
         }
 
