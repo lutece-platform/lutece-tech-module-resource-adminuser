@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.plugins.resource.business.IResource;
+import fr.paris.lutece.plugins.resource.service.ResourceCacheService;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -61,6 +62,30 @@ public class AdminUserResourceProviderTest extends LuteceTestCase
         user.setLocale( java.util.Locale.FRENCH );
         AdminUserHome.create( user );
         return user;
+    }
+
+    /**
+     * A renamed or deleted administrator is seen at once (no stale cached resource; decision 25/11)
+     */
+    @Test
+    public void testRenamedAndDeletedAdministratorSeenAtOnce( )
+    {
+        CDI.current( ).select( ResourceCacheService.class ).get( ).enableCache( true );
+        AdminUser user = create( "renamed", AdminUser.ACTIVE_CODE );
+        String strId = String.valueOf( user.getUserId( ) );
+        AdminUserResourceProvider provider = CDI.current( ).select( AdminUserResourceProvider.class ).get( );
+        try
+        {
+            assertTrue( provider.getResource( strId, AdminUser.RESOURCE_TYPE ).getResourceName( ).contains( "la06" ) );
+            user.setLastName( "la05renamed" );
+            AdminUserHome.update( user );
+            assertTrue( provider.getResource( strId, AdminUser.RESOURCE_TYPE ).getResourceName( ).contains( "la05renamed" ), "renamed" );
+        }
+        finally
+        {
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+        assertNull( provider.getResource( strId, AdminUser.RESOURCE_TYPE ), "deleted" );
     }
 
     @Test

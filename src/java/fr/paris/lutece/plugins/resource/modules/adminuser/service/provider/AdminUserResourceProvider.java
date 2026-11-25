@@ -37,14 +37,12 @@ import fr.paris.lutece.plugins.resource.business.IResource;
 import fr.paris.lutece.plugins.resource.business.IResourceType;
 import fr.paris.lutece.plugins.resource.business.ResourceTypeDefaultImplementation;
 import fr.paris.lutece.plugins.resource.modules.adminuser.business.AdminUserResource;
-import fr.paris.lutece.plugins.resource.service.ResourceCacheService;
 import fr.paris.lutece.plugins.resource.service.provider.IResourceProvider;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
@@ -62,9 +60,6 @@ public class AdminUserResourceProvider implements IResourceProvider
 {
     private static final String MESSAGE_ADMIN_USER_RESOURCE_TYPE_DESCRIPTION = "module.resource.adminuser.labelAdminUserResourceType";
     private List<IResourceType> _listResourceTypes;
-
-    @Inject
-    private ResourceCacheService _resourceCacheService;
 
     /**
      * Default constructor
@@ -100,24 +95,19 @@ public class AdminUserResourceProvider implements IResourceProvider
     @Override
     public IResource getResource( String strIdResource, String strResourceTypeName )
     {
-        String strCacheKey = ResourceCacheService.getResourceCacheKey( strIdResource, strResourceTypeName );
-        AdminUserResource user = (AdminUserResource) _resourceCacheService.get( strCacheKey );
-
-        if ( user == null )
+        // read by primary key each time: the core fires no event when an administrator is modified or deleted, so a cached
+        // copy could not be invalidated (renamed or deleted administrator shown for up to the cache lifetime)
+        if ( StringUtils.isNotEmpty( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
         {
-            if ( StringUtils.isNotEmpty( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
-            {
-                AdminUser adminUser = AdminUserHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
+            AdminUser adminUser = AdminUserHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
 
-                if ( adminUser != null )
-                {
-                    user = new AdminUserResource( adminUser );
-                    _resourceCacheService.put( strCacheKey, user );
-                }
+            if ( adminUser != null )
+            {
+                return new AdminUserResource( adminUser );
             }
         }
 
-        return user;
+        return null;
     }
 
     /**
