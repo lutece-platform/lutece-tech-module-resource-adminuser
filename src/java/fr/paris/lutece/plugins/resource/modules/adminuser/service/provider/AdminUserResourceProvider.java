@@ -133,7 +133,11 @@ public class AdminUserResourceProvider implements IResourceProvider
 
             for ( AdminUser adminUser : listAdminUser )
             {
-                listResource.add( new AdminUserResource( adminUser ) );
+                // only active administrators can be given a resource (disabled, expired and anonymized accounts are not offered)
+                if ( adminUser.getStatus( ) == AdminUser.ACTIVE_CODE )
+                {
+                    listResource.add( new AdminUserResource( adminUser ) );
+                }
             }
 
             return listResource;
